@@ -14,7 +14,23 @@ const FolderDialog = () => {
     console.log(event.target.files[0]);
   };
 
-  const handleSubmission = () => {};
+  const postSelectedFile = async () => {
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+    const response = await fetch("http://127.0.0.1:5000/process", {
+      method: "POST",
+      body: formData,
+      headers: {
+        "cotent-type": "base64",
+      },
+    });
+    const resData = await response.json();
+    console.log(resData, "line 28");
+    console.log(resData, "this is the response Data");
+    // } catch (error) {
+    //   console.log(error, "you messed something up");
+    // }
+  };
 
   return (
     <div class="cards">
@@ -25,7 +41,7 @@ const FolderDialog = () => {
         {!isFilePicked ? (
           <input type="file" name="file" onChange={changeHandler} />
         ) : (
-          <Button title="Convert File" handleSubmission={handleSubmission} />
+          <Button title="Convert File" handleSubmission={postSelectedFile} />
         )}
       </div>
     </div>
